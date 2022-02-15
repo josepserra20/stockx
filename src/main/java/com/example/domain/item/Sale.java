@@ -13,19 +13,23 @@ public class Sale implements Offer {
     @Override
     public String size() {
         // TODO Auto-generated method stub
-        return null;
+        return this.size;
     }
 
     @Override
     public int value() {
         // TODO Auto-generated method stub
-        return 0;
+        return this.price;
     }
 
     @Override
     public int compareTo(Offer oferta) {
         // TODO Auto-generated method stub
         return 0;
+    }
+    @Override
+    public String toString() {
+        return this.size() + " " + this.value() + "\n";
     }
     
 }

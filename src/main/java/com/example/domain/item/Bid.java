@@ -23,6 +23,7 @@ public class Bid implements Offer {
 
     @Override
     public int compareTo(Offer oferta) {
+    //    return this.bid.compareTo(((Offer)oferta).value());
        return Integer.compare(oferta.value(), this.bid);
        
     }

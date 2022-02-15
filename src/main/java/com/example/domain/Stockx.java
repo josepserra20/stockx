@@ -2,14 +2,20 @@ package com.example.domain;
 import java.util.Arrays;
 import java.util.List;
 
+import com.example.domain.criteria.AndCriteria;
 import com.example.domain.criteria.Asks;
 import com.example.domain.criteria.Bids;
 import com.example.domain.criteria.Criteria;
+import com.example.domain.criteria.LastSale;
 import com.example.domain.criteria.MaxBid;
 import com.example.domain.criteria.MinAsk;
+import com.example.domain.criteria.Sales;
+import com.example.domain.criteria.Size;
 import com.example.domain.item.Ask;
 import com.example.domain.item.Bid;
 import com.example.domain.item.Item;
+import com.example.domain.item.Offer;
+import com.example.domain.item.Sale;
 import com.example.domain.item.Sneaker;
 
 /**
@@ -88,6 +94,108 @@ public class Stockx {
         Criteria asks = new Asks();
         System.out.println("\n\t\t All ASKS");
         asks.checkCriteria(sneaker).forEach(System.out::print);
+
+        /**
+         * Muestra la bid maxima
+         * de la zapatilla. 
+         * 
+         * Crea el filtro MaxBid que filtra
+         * el maximo de las bids de la zapatilla.
+         * Devuelve la bid maxima como unico
+         * elemento de una lista de offers.
+         * 
+         * Guarda esta bid maxima en la
+         * propiedad bid de sneaker.
+         */
+
+        Criteria maxBid = new MaxBid();
+        List<Offer> maximum = maxBid.checkCriteria(sneaker);
+        sneaker.setBid(maximum.isEmpty()? 0 : maximum.get(0).value());
+        System.out.println(Stockx.draw(sneaker));
+
+        /**
+         * Muestra la ask minima
+         * de la zapatilla. 
+         * 
+         * Crea el filtro MinAsk que filtra
+         * el minimo de las asks de la zapatilla.
+         * Devuelve la ask minima como unico
+         * elemento de una lista de offers.
+         * 
+         * Guarda esta ask minima en la propiedad
+         * ask de sneaker.
+         */
+
+        Criteria minAsk = new MinAsk();
+        List<Offer> minimum = minAsk.checkCriteria(sneaker);
+        sneaker.setAsk(minimum.isEmpty()? 0 : minimum.get(0).value());
+        System.out.println(Stockx.draw(sneaker));
+
+         /**
+         * Añade ventas (sales) de 
+         * una zapatilla a sus offers.
+         * Las ventas se añaden segun fecha
+         * en la que se producen, de mas antigua
+         * a mas reciente.
+         */
+
+        Sale sale = new Sale("6", 356);
+        sneaker.add(sale);
+        sneaker.add(new Sale("9.5", 352));
+        sneaker.add(new Sale("9.5", 404));
+        sneaker.add(new Sale("13", 360));
+        sneaker.add(new Sale("13", 372));
+
+        /**
+         * Crear el filtro "Sales" que filtra
+         * solo las ventas /sales de entre las 
+         * offers de la zapatilla.
+         */
+
+        Criteria sales = new Sales();
+        System.out.println("\n\t\t All SALES");
+        sales.checkCriteria(sneaker).forEach(System.out::print);
+
+        /**
+         * Crea un filtro que devuelva
+         * la ULTIMA de las ventas (que 
+         * es la ultima en ser incluida
+         * en sneaker).
+         */
+        
+        Criteria lastSale = new LastSale();
+        
+        List<Offer> actualSale = lastSale.checkCriteria(sneaker);
+        sneaker.setSale(actualSale.isEmpty()? 0 : actualSale.get(0).value());
+        System.out.println(Stockx.draw(sneaker));
+
+        /**
+         * Mostrar info de la zapatilla 
+         * en la talla 9.5
+         */
+
+        /**
+         * Muestra las sales de la talla 9.5
+         * 
+         * Crea un filtro Size(talla) que devuelva las
+         * zapatillas de la talla indicada.
+         * 
+         * Crea un filtro AndCriteria() que haga
+         * un AND de los filtros Size y Sales.
+         */
+
+        System.out.println("\n\t\t SALES 9.5 US");
+        Criteria size = new Size("9.5");
+        
+        sales = new Sales();
+        Criteria andSizeSales = new AndCriteria(size, sales);
+        andSizeSales.checkCriteria(sneaker).forEach(System.out::print);
+
+        List<Offer> sizeSales = andSizeSales.checkCriteria(sneaker);
+        sneaker.setSale(sizeSales.isEmpty()? 
+                            0 : 
+                            sizeSales.get(sizeSales.size() -1).value());
+        System.out.println("\n\t\t LAST SALE 9.5 US: " + sneaker.getSale());
 
     }
 
