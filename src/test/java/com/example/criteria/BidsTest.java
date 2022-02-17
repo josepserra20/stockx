@@ -39,11 +39,11 @@ public class BidsTest
 
         sneaker.setBid(maxopt.isPresent() ? maxopt.get().value() : 0);
         
-        assertEquals(550, maxopt.get().value());
+        assertEquals(380, maxopt.get().value());
 
         Optional<Offer> maxsize = Optional.ofNullable(filteredBids.get(0));
         
-        assertEquals("5.5", maxsize.get().size());
+        assertEquals("4.5", maxsize.get().size());
 
         Optional<String> empty = Optional.empty();
         assertFalse(empty.isPresent());
