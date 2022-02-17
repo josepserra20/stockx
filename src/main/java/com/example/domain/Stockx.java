@@ -7,6 +7,7 @@ import com.example.domain.criteria.Asks;
 import com.example.domain.criteria.Bids;
 import com.example.domain.criteria.Criteria;
 import com.example.domain.criteria.LastSale;
+import com.example.domain.criteria.Max;
 import com.example.domain.criteria.MaxBid;
 import com.example.domain.criteria.MinAsk;
 import com.example.domain.criteria.Sales;
@@ -197,6 +198,16 @@ public class Stockx {
                             sizeSales.get(sizeSales.size() -1).value());
         System.out.println("\n\t\t LAST SALE 9.5 US: " + sneaker.getSale());
 
+        /**
+         * Crea un filtro Max(size, bids)
+         * que devuelva el maximo de las bids
+         * de una talla.
+         */
+
+        Criteria sizeMaxBid = new Max(size, bids);
+        List<Offer> sizeBid = sizeMaxBid.checkCriteria(sneaker);
+        sneaker.setBid(sizeBid.isEmpty()? 0 : sizeBid.get(0).value());
+        System.out.println("\n\t\t MAX BID 9.5 US: " + sneaker.getBid());
     }
 
 
